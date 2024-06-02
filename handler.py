@@ -41,6 +41,7 @@ def product_details_handler(url):
                 "div", class_="td-ingredient-interior"
             ).text
             functions_concerns = ingredient_more_info_wrappers[index].find_all("td")
-            print(functions_concerns)
+            for function_concern in functions_concerns:
+                print(function_concern.text)
 
         # print(ingredient_more_info_wrappers)
