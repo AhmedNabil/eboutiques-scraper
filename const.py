@@ -8,6 +8,12 @@ cats = [
                 "slug": "Anti-aging",
                 "pagination_slug": "Anti-aging",
             },
+            {
+                "name": "Around Eye Cream",
+                "parent_category": "Face",
+                "slug": "Around-eye_cream",
+                "pagination_slug": "Around-eye+cream",
+            },
         ],
     }
 ]
