@@ -43,7 +43,7 @@ for idx, category in enumerate(cats):
         print("##################################################################")
         isHaveNextPage = True
         page = 1
-        sleep(2)
+        sleep(1)
         while isHaveNextPage:
             url = handler.url_handler(
                 baseUrl=baseUrl,
@@ -56,36 +56,22 @@ for idx, category in enumerate(cats):
             print("page---", page, "---page")
             for product in product_list:  # noqa: F402
                 id += 1
-                product_name = handler.product_handler(product)["product_name"]
-                product_company = handler.product_handler(product)["product_company"]
-                print(f"ID : {id}")
-                print(f"Product Name : {product_name}")
-                print(f"Product Company : {product_company}")
-                print(
-                    f"Product Image : {handler.product_handler(product)['product_img']}"
-                )
-                print(
-                    f"Product URL : {handler.product_handler(product)['product_url']}"
-                )
-                print(f"Main Category : {main_cat}")
-                print(f"Parent Category : {parent_cat}")
-                print(f"Sub Category : {sub_cat}")
-                print(
-                    "##################################################################"
-                )
+                product_url = handler.product_handler(product)["product_url"]
+                product_details = handler.product_details_handler(product_url)
+                sleep(1)
 
-                with open(FILE_PATH, "a", newline="") as products_csv:
-                    products_csv_write = csv.writer(products_csv)
-                    products_csv_write.writerow(
-                        [
-                            id,
-                            product_name,
-                            product_company,
-                            main_cat,
-                            parent_cat,
-                            sub_cat,
-                        ]
-                    )
+                # with open(FILE_PATH, "a", newline="") as products_csv:
+                #     products_csv_write = csv.writer(products_csv)
+                #     products_csv_write.writerow(
+                #         [
+                #             id,
+                #             product_name,
+                #             product_company,
+                #             main_cat,
+                #             parent_cat,
+                #             sub_cat,
+                #         ]
+                #     )
             isHaveNextPage = handler.next_page_checker(url)
-            sleep(3)
+            sleep(1)
             page += 1

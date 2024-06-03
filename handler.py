@@ -1,5 +1,8 @@
 from itertools import product
-from math import prod
+from logging import info, warn
+from math import e, inf, prod
+import re
+from tkinter import XView
 from bs4 import BeautifulSoup
 import requests
 import csv
@@ -65,16 +68,52 @@ def product_handler(product):
 
 def product_details_handler(url):
     soup = soup_response(url)
-    ingredient_overviews = soup.find_all("tr", class_="ingredient-overview-tr")
-    ingredient_more_info_wrappers = soup.find_all(
-        "tr", class_="ingredient-more-info-wrapper"
-    )
-    for index, ingredient_overview in enumerate(ingredient_overviews):
-        ingredient_title = ingredient_overview.find(
-            "div", class_="td-ingredient-interior"
-        ).text
-        functions_concerns = ingredient_more_info_wrappers[index].find_all("td")
-        for function_concern in functions_concerns:
-            print(function_concern.text)
+    label_information = fetch_label_information(soup)
+    product_ingredient_concern = fetch_product_ingredient_concerns(soup)
 
-    print(ingredient_more_info_wrappers)
+
+def fetch_product_ingredient_concerns(soup):
+    ingredient_list = []
+    if soup.find("section", class_="product-concerns-and-info") is None:
+        return None
+
+    ingredient_list = (
+        soup.find("section", class_="product-concerns-and-info")
+        .find("table", class_="table-ingredient-concerns")
+        .find("tbody")
+        .find_all("tr", class_="ingredient-overview-tr")
+    )
+    print("=====================================")
+    print(len(ingredient_list))
+    print(
+        len(
+            soup.find("section", class_="product-concerns-and-info")
+            .find("table", class_="table-ingredient-concerns")
+            .find("tbody")
+            .find_all("tr", class_="ingredient-more-info-wrapper")
+        )
+    )
+    print("=====================================")
+
+
+def fetch_label_information(soup):
+    info_list = []
+    if soup.find("section", attrs={"id": "label-information"}) is None:
+        return None
+    info_list = soup.find("section", attrs={"id": "label-information"}).find_all(
+        ["h2", "p"]
+    )
+    for heading in info_list:
+        label_information = {}
+        if (
+            heading.name == "h2"
+            and "Ingredients from packaging" in heading.text.strip()
+        ):
+            for p in heading.find_next_siblings("p"):
+                label_information["ingredients_from_packaging"] = p.text.strip()
+
+        if heading.name == "h2" and "Warnings from packaging" in heading.text.strip():
+            for p in heading.find_next_siblings("p"):
+                label_information["warnings_from_packaging"] = p.text.strip()
+
+        return label_information
