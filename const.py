@@ -14,6 +14,12 @@ cats = [
                 "slug": "Around-eye_cream",
                 "pagination_slug": "Around-eye+cream",
             },
+            {
+                "name": "BB Cream",
+                "parent_category": "Face",
+                "slug": "BB_Cream",
+                "pagination_slug": "BB+Cream",
+            },
         ],
     }
 ]
