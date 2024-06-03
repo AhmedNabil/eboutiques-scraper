@@ -71,9 +71,6 @@ for idx, category in enumerate(cats):
                 print(f"Parent Category : {parent_cat}")
                 print(f"Sub Category : {sub_cat}")
                 print(
-                    f"Product Details :{handler.product_details_handler(handler.product_handler(product)['product_url'])}"
-                )
-                print(
                     "##################################################################"
                 )
 
