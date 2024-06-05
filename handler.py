@@ -78,9 +78,6 @@ def product_details_handler(url):
     }
 
 
-
-
-
 def fetch_product_ingredient_concerns(soup):
     ingredient_list = []
     if soup.find("section", class_="product-concerns-and-info") is None:
@@ -114,9 +111,6 @@ def fetch_product_ingredient_concerns(soup):
         product_ingredient_concern.append(ingredient_concern)
     return product_ingredient_concern 
   
-    
-
-        
 
 def fetch_label_information(soup):
     info_list = []
@@ -143,3 +137,28 @@ def fetch_label_information(soup):
                 label_information["warnings_from_packaging"] = p.text.strip()
 
         return label_information
+
+
+def img_download(url, id):
+    img = requests.get(url)
+    with open(f"imgs/{id}.png", "wb") as file:
+        session = requests.Session()
+        session.cookies.update({"__hs_opt_out": "yes"})
+        session.get(url)
+        response = requests.get(url)
+        if response.status_code == 403:
+            headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+            response = requests.get(url, headers=headers  , stream=True)
+        if not response.ok:
+             print(response)
+        for block in response.iter_content(1024):
+            if not block:
+                break
+            file.write(block)
+        
+
+
+
+
+
+
