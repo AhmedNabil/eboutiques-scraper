@@ -70,7 +70,8 @@ def product_details_handler(url):
     soup = soup_response(url)
     label_information = fetch_label_information(soup)
     product_ingredient_concern = fetch_product_ingredient_concerns(soup)
-
+    print(product_ingredient_concern)
+    print("================================================================")
 
 def fetch_product_ingredient_concerns(soup):
     ingredient_list = []
@@ -90,6 +91,8 @@ def fetch_product_ingredient_concerns(soup):
         .find("tbody")
         .find_all("tr", class_="ingredient-more-info-wrapper")
     )
+    
+    product_ingredient_concern = []
     for idx, ingredient in enumerate(ingredient_list):
         ingredient_concern = {}
         ingredient_concern["ingredient_name"] = ingredient.find(
@@ -100,7 +103,11 @@ def fetch_product_ingredient_concerns(soup):
                 ingredient_concern["ingredient_concerns"] = heading.find_next("td").text
             if "FUNCTION(S)" in heading.text:
                 ingredient_concern["ingredient_function"] = heading.find_next("td").text
-        print(ingredient_concern)
+        product_ingredient_concern.append(ingredient_concern)
+    return product_ingredient_concern 
+  
+    
+
         
 
 def fetch_label_information(soup):
