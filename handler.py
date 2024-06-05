@@ -68,10 +68,18 @@ def product_handler(product):
 
 def product_details_handler(url):
     soup = soup_response(url)
+    product_name = soup.find("h2", class_="product-name").text
     label_information = fetch_label_information(soup)
-    product_ingredient_concern = fetch_product_ingredient_concerns(soup)
-    print(product_ingredient_concern)
-    print("================================================================")
+    product_ingredient_concerns = fetch_product_ingredient_concerns(soup)
+    return {
+        "product_name": product_name,
+        "label_information": label_information,
+        "product_ingredient_concerns": product_ingredient_concerns,
+    }
+
+
+
+
 
 def fetch_product_ingredient_concerns(soup):
     ingredient_list = []
@@ -125,6 +133,10 @@ def fetch_label_information(soup):
         ):
             for p in heading.find_next_siblings("p"):
                 label_information["ingredients_from_packaging"] = p.text.strip()
+
+        if heading.name == "h2" and "Directions from packaging" in heading.text.strip():
+            for p in heading.find_next_siblings("p"):
+                label_information["directions_from_packaging"] = p.text.strip()
 
         if heading.name == "h2" and "Warnings from packaging" in heading.text.strip():
             for p in heading.find_next_siblings("p"):
