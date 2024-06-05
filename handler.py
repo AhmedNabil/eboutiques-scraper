@@ -83,18 +83,25 @@ def fetch_product_ingredient_concerns(soup):
         .find("tbody")
         .find_all("tr", class_="ingredient-overview-tr")
     )
-    print("=====================================")
-    print(len(ingredient_list))
-    print(
-        len(
-            soup.find("section", class_="product-concerns-and-info")
-            .find("table", class_="table-ingredient-concerns")
-            .find("tbody")
-            .find_all("tr", class_="ingredient-more-info-wrapper")
-        )
-    )
-    print("=====================================")
 
+    ingredient_more_info_list = (
+         soup.find("section", class_="product-concerns-and-info")
+        .find("table", class_="table-ingredient-concerns")
+        .find("tbody")
+        .find_all("tr", class_="ingredient-more-info-wrapper")
+    )
+    for idx, ingredient in enumerate(ingredient_list):
+        ingredient_concern = {}
+        ingredient_concern["ingredient_name"] = ingredient.find(
+            "td", class_="td-ingredient"
+        ).find('div' , class_="td-ingredient-interior").text.strip()
+        for heading in ingredient_more_info_list[idx].find_all(["td"]):
+            if "CONCERNS" in heading.text:
+                ingredient_concern["ingredient_concerns"] = heading.find_next("td").text
+            if "FUNCTION(S)" in heading.text:
+                ingredient_concern["ingredient_function"] = heading.find_next("td").text
+        print(ingredient_concern)
+        
 
 def fetch_label_information(soup):
     info_list = []
