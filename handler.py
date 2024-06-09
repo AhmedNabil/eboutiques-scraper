@@ -1,17 +1,8 @@
-from itertools import product
-from logging import info, warn
-from math import e, inf, prod
-import re
-from tkinter import XView
 from bs4 import BeautifulSoup
 import requests
-import csv
-from pathlib import Path
-from const import cats
 import xlsxwriter
 from openpyxl import load_workbook
 import openpyxl
-import pandas as pd
 import uuid
 
 

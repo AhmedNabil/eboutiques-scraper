@@ -1,42 +1,8 @@
 from itertools import product
-from math import prod
-from time import sleep
-from bs4 import BeautifulSoup
-import requests
-import csv
 from pathlib import Path
-from const import cats
+from time import sleep
 import handler
-import xlsxwriter
-
-
-# # Create an new Excel file and add a worksheet.
-# workbook = xlsxwriter.Workbook("products.xlsx")
-# worksheet = workbook.add_worksheet("Products")
-# worksheet2 = workbook.add_worksheet("Ingredients")
-
-# # Widen the first column to make the text clearer.
-# worksheet.set_column('A:A', 20)
-
-# # Add a bold format to use to highlight cells.
-# bold = workbook.add_format({'bold': True})
-
-# # Write some simple text.
-# worksheet.write('A1', 'Hello')
-
-# # Text with formatting.
-# worksheet.write('A2', 'World', bold)
-
-# # Write some numbers, with row/column notation.
-# worksheet.write(2, 0, 123)
-# worksheet.write(3, 0, 123.456)
-
-# img_download = handler.img_download("https://phorcys-static.ewg.org/cdn-cgi/image/width=300,height=300,quality=60/https://phorcys-static.ewg.org/image/contents/620584/medium.png?1655315800" , "1")
-
-# # Insert an image.
-# worksheet.insert_image('B5', 'imgs/1.png')
-
-# workbook.close()
+from const import cats
 
 
 isHaveNextPage = True
@@ -48,7 +14,6 @@ baseUrl = "https://www.ewg.org/skindeep/browse/category/"
 
 
 handler.xlsx_file(FILE_PATH)
-
 
 for idx, category in enumerate(cats):
     for index, sub_category in enumerate(category["sub_categories"]):
@@ -146,25 +111,6 @@ for idx, category in enumerate(cats):
                             ),
                         },
                     )
-                # with open(FILE_PATH, "a", newline="") as products_csv:
-                #     products_csv_write = csv.writer(products_csv)
-                #     products_csv_write.writerow(
-                #         [
-                #             id,
-                #             product_name,
-                #             product_img,
-                #             product_company,
-                #             product_url,
-                #             main_cat,
-                #             parent_cat,
-                #             sub_cat,
-                #             ingredient_from_packaging,
-                #             directions_from_packaging,
-                #             warnings_from_packaging,
-                #             product_details["product_ingredient_concerns"],
-
-                #         ]
-                #     )
             isHaveNextPage = handler.next_page_checker(url)
             sleep(1)
             page += 1
