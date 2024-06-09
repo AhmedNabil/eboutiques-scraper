@@ -62,20 +62,10 @@ for idx, category in enumerate(cats):
                 product_ingredient_concerns = product_details[
                     "product_ingredient_concerns"
                 ]
-                print(
-                    "===================================================================================================="
-                )
+                print("=========================================================")
                 print(f"ID : {id}")
                 print(f"Product Name : {product_name}")
-                print(f"Product Company : {product_company}")
-                print(f"Product Image : {product_img}")
-                print(f"Ingredients From Packaging : {ingredient_from_packaging}")
-                print(f"Directions From Packaging : {directions_from_packaging}")
-                print(f"Warnings From Packaging : {warnings_from_packaging}")
-                # print(f"Product Ingredient Concerns : {product_ingredient_concerns}")
-                print(
-                    "===================================================================================================="
-                )
+                print("=========================================================")
                 handler.write_product_to_xlsx(
                     FILE_PATH,
                     {
