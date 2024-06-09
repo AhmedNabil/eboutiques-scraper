@@ -1,3 +1,4 @@
+from turtle import st
 from bs4 import BeautifulSoup
 import requests
 import xlsxwriter
@@ -231,9 +232,18 @@ def write_ingredient_to_xlsx(FILE_PATH, ingredient):
     wb = load_workbook(FILE_PATH)
     ws = wb["Ingredients"]
     row = ws.max_row + 1
+    ingredient_concerns = (
+        ingredient["ingredient_concerns"]
+        .replace(
+            "EWG has reviewed the use of this ingredient in the product formulation and found it did not pose significant health concerns. However, there may be concerns associated with the use of the ingredient in other products or formulations. Visit the ingredient page to learn more.",
+            "",
+        )
+        .replace("•", "")
+    )
+
     ws.cell(row=row, column=1, value=uuid.uuid4().hex)
     ws.cell(row=row, column=2, value=ingredient["ingredient_name"])
     ws.cell(row=row, column=3, value=ingredient["product_id"])
     ws.cell(row=row, column=4, value=ingredient["ingredient_function"])
-    ws.cell(row=row, column=5, value=ingredient["ingredient_concerns"])
+    ws.cell(row=row, column=5, value=str(ingredient_concerns))
     wb.save(FILE_PATH)
